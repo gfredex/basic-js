@@ -12,44 +12,34 @@ const { NotImplementedError } = require('../extensions/index.js');
  * 
  */
 function getSeason(date) {
+  const seasons = ['winter', 'spring', 'summer', 'autumn'];
   let indexPath = -1;
-  if (!date) {
-    indexPath = -1;
-  }
 
-  const seasons = ['winter', 'spring', 'summer', 'autumn']
-  if (Object.toString.call(date).slice(8, -1) === 'Date') {
+  if (date) {
     indexPath = -2;
-    const myMonthDate = date.getMonth();
-    if (Object.values(date).length || date.toString === 'Invalid Date') {
-      indexPath = -2;
-    } else {
-      if (myMonthDate === 11 || myMonthDate === 0 || myMonthDate === 1) {
-        indexPath = 0;
-      } else if (myMonthDate === 2 || myMonthDate === 3 || myMonthDate === 4) {
-        indexPath = 1
-      } else if (myMonthDate === 5 || myMonthDate === 6 || myMonthDate === 7) {
-        indexPath = 2
-      } else if (myMonthDate === 8 || myMonthDate === 9 || myMonthDate === 10) {
-        indexPath = 3
+    if (Object.prototype.toString.call(date).slice(8, -1) === 'Date') {
+      if (Object.values(date).length || date.toString === 'Invalid Date') {
+        indexPath = -2;
+      } else {
+        indexPath = Math.floor((date.getMonth() + 1) / 3) % 4;
       }
     }
-
-    switch (indexPath) {
-      case -2:
-        throw new Error("Invalid date!");
-        break;
-      case -1:
-        return 'Unable to determine the time of year!';
-        break;
-      default:
-        return seasons[indexPath]
-    }
-
   }
 
-  // return 'Unable to determine the time of year!'
+  switch (indexPath) {
+    case -2:
+      throw new Error("Invalid date!");
+      break;
+    case -1:
+      return 'Unable to determine the time of year!';
+      break;
+    default:
+      return seasons[indexPath]
+  }
 }
+
+// return 'Unable to determine the time of year!'
+
 
 
 module.exports = {
