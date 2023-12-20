@@ -21,41 +21,21 @@ function transform(arr) {
 
   for (let i = 0; i < arr.length; i++) {
     const curentItem = arr[i];
-    if (arr[i] !== undefined && curentItem === 'number') {
-      newArr.push(arr[i]);
-    } else if (arr[i] === '--discard-next') {
-      i++;
-    } else if (arr[i] === '--discard-prev') {
+    if (arr[i] === '--discard-next') {
+      i += 2;
+    } else if (arr[i] === '--discard-prev' && (typeof (arr[i - 1]) === "number")) {
       if (newArr.length) {
         newArr.pop();
       }
-    } else if (arr[i] === '--double-next') {
+    } else if (arr[i] === '--double-next' && (typeof (arr[i + 1]) === "number")) {
       newArr.push(arr[i + 1]);
-    } else if (arr[i] === '--double-prev') {
+    } else if (arr[i] === '--double-prev' && (typeof (arr[i - 1]) === "number")) {
       newArr.push(arr[i - 1]);
+    } else if (typeof curentItem === "number") {
+      newArr.push(arr[i]);
     }
-
-
-    //   case '--discard-next'
-    //     i++;
-    //     break;
-    //   case '--discard-prev'
-    //     if (newArr.length) {
-    //       newArr.pop();
-    //     }
-    //     break;
-    //   case '--double-next'
-    //     newArr.push(arr[i + 1]);
-    //     break;
-    //   case '--double-prev'
-    //   newArr.push(arr[i - 1])
-    //     break;
-    // }
-    // default:
-    // if (arr[i] !== undefined && typeof.arr[i] === 'number') {
-    //   newArr.push(arr[i]);
-    // }
   }
+
   return newArr;
 }
 
